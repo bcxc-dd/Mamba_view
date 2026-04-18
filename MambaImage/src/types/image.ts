@@ -17,3 +17,27 @@ export type InferenceResult = {
   previewUrl: string;
   inferenceTime: string | null;
 };
+
+export type PerformanceTab = "processor" | "performance";
+
+export type UploadedSourceMeta = {
+  fileSizeBytes: number;
+  fileSizeKB: number;
+  imageWidth: number;
+  imageHeight: number;
+  pixelCount: number;
+};
+
+export type InferenceHistoryItem = {
+  id: string;
+  createdAt: string;
+  modelType: ModelType;
+  inferenceTimeSec: number;
+  fileSizeBytes: number;
+  fileSizeKB: number;
+  imageWidth: number;
+  imageHeight: number;
+  pixelCount: number;
+  imageId: string;
+  filename: string;
+};

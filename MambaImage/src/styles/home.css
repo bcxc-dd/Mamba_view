@@ -113,6 +113,14 @@
   color: rgba(var(--scene-ink-rgb), 0.9);
 }
 
+.hero-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: rgba(var(--scene-ink-rgb), 0.86);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .hero-badge {
   display: inline-flex;
   align-items: center;

@@ -6,7 +6,7 @@ import type {
   UploadResponse,
 } from "../types/image";
 
-export const USE_MOCK = false;
+export const USE_MOCK = true;
 
 const MODEL_MOCK_CONFIG: Record<
   ModelType,

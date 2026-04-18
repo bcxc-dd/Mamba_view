@@ -1,24 +1,44 @@
 :root {
-	font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-	color: #111827;
-	background: #f7f7f8;
-	font-synthesis: none;
-	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  color-scheme: light;
+  font-family:
+    "Avenir Next",
+    "SF Pro Display",
+    "Segoe UI",
+    "PingFang SC",
+    sans-serif;
+  --scene-bg-rgb: 240, 246, 255;
+  --scene-bg-top-rgb: 228, 238, 252;
+  --scene-bg-alt-rgb: 172, 202, 240;
+  --scene-panel-rgb: 255, 255, 255;
+  --scene-ink-rgb: 23, 40, 73;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
 }
 
 body {
-	margin: 0;
-	min-width: 320px;
-	min-height: 100vh;
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: rgb(var(--scene-bg-rgb));
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 #root {
-	min-height: 100vh;
+  min-height: 100vh;
 }
-
