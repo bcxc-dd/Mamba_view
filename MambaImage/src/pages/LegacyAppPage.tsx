@@ -638,16 +638,7 @@ function LegacyAppPage({ embedded = false }: LegacyAppPageProps) {
                         <div className="magnifier-container">
                           <img src={sourcePreviewUrl} alt="原图" id="source-img-for-lens" />
                           {lensPosition &&
-                            (fullImageZoom ? (
-                              <div
-                                className="magnifier-full-zoom"
-                                style={{
-                                  transformOrigin: `${lensPosition.x}% ${lensPosition.y}%`,
-                                  transform: `scale(${zoomFactor})`,
-                                  backgroundImage: `url(${sourcePreviewUrl})`,
-                                }}
-                              />
-                            ) : (
+                            (!fullImageZoom && (
                               <div
                                 className="magnifier-lens"
                                 style={{
@@ -733,7 +724,7 @@ function LegacyAppPage({ embedded = false }: LegacyAppPageProps) {
                 <div className="history-actions">
                   <p>横轴：图片文件大小（KB） / 纵轴：推理耗时（秒）</p>
                   <div className="history-action-buttons">
-                    <Button onClick={handleInjectMockHistory}>生成Mock数据</Button>
+                    {/* <Button onClick={handleInjectMockHistory}>生成Mock数据</Button> */}
                     <Button danger onClick={handleClearHistory} disabled={historyItems.length === 0}>
                       清空历史
                     </Button>
