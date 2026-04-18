@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from basicsr.archs.arch_util import to_2tuple, trunc_normal_
-from basicsr.utils.registry import ARCH_REGISTRY
+from utils.registry import ARCH_REGISTRY
 from einops import rearrange, repeat
 from mamba_ssm.ops.selective_scan_interface import selective_scan_fn
 

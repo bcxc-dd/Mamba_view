@@ -27,7 +27,6 @@ env.bak/
 venv.bak/
 
 # 深度学习模型
-*.pth
 *.pt
 *.pdparams
 *.onnx
@@ -38,3 +37,4 @@ venv.bak/
 # 操作系统文件
 .DS_Store
 Thumbs.db
+*.png

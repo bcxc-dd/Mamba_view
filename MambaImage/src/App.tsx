@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Button, Pagination, Select, Upload, message, Radio } from "antd";
+import { Button, Pagination, Select, Upload, message, Radio, Slider, Switch } from "antd";
 import type { UploadFile } from "antd/es/upload/interface";
 import "./App.css";
 import "img-comparison-slider";
@@ -27,6 +27,10 @@ function App() {
   const [uploadedImage, setUploadedImage] = useState<UploadResponse | null>(null);
   const [viewMode, setViewMode] = useState<"single" | "compare">("single");
   const [lensPosition, setLensPosition] = useState<{ x: number; y: number; bgHeight: number; bgWidth: number } | null>(null);
+  const MIN_ZOOM = 1;
+  const MAX_ZOOM = 18;
+  const [zoomFactor, setZoomFactor] = useState<number>(3);
+  const [fullImageZoom, setFullImageZoom] = useState<boolean>(false);
   const comparisonRef = useRef<HTMLElement | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const sourceObjectUrlRef = useRef<string | null>(null);
@@ -346,9 +350,33 @@ function App() {
           placeholder={viewMode === "single" ? "选择一个模型" : "选择一个或多个模型"}
         />
 
-        <Button type="primary" loading={processing} onClick={handleProcess}>
-          {viewMode === "single" ? "开始单模型超分" : "开始多图对比加载"}
-        </Button>
+        <div style={{display: 'flex', alignItems: 'center', gap: 12}}>
+          <div style={{display: 'flex', flexDirection: 'column', minWidth: 140}}>
+            <label style={{fontSize:12, color:'#6b7280'}}>放大倍数: {zoomFactor}x</label>
+            <Slider
+              min={MIN_ZOOM}
+              max={MAX_ZOOM}
+              step={0.5}
+              value={zoomFactor}
+              onChange={(v) => {
+                const val = v as number;
+                // clamp to allowed range to avoid unexpected values
+                const clamped = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, val));
+                setZoomFactor(clamped);
+              }}
+              style={{width:160}}
+            />
+          </div>
+
+          <div style={{display:'flex', alignItems:'center', gap:8}}>
+            <label style={{fontSize:12, color:'#6b7280'}}>全图放大</label>
+            <Switch checked={fullImageZoom} onChange={(v) => setFullImageZoom(v)} />
+          </div>
+
+          <Button type="primary" loading={processing} onClick={handleProcess}>
+            {viewMode === "single" ? "开始单模型超分" : "开始多图对比加载"}
+          </Button>
+        </div>
       </section>
 
       <section className="status-bar" aria-label="状态区">
@@ -419,16 +447,20 @@ function App() {
               <div className="magnifier-container">
                 <img src={sourcePreviewUrl} alt="原图" id="source-img-for-lens" />
                 {lensPosition && (
-                  <div
-                    className="magnifier-lens"
-                    style={{
-                      left: `${lensPosition.x}%`,
-                      top: `${lensPosition.y}%`,
-                      backgroundImage: `url(${sourcePreviewUrl})`,
-                      backgroundPosition: `${lensPosition.x}% ${lensPosition.y}%`,
-                      backgroundSize: `${lensPosition.bgWidth * 3}px auto`,
-                    }}
-                  />
+                  fullImageZoom ? (
+                    <div className="magnifier-full-zoom" style={{transformOrigin: `${lensPosition.x}% ${lensPosition.y}%`, transform: `scale(${zoomFactor})`}} />
+                  ) : (
+                    <div
+                      className="magnifier-lens"
+                      style={{
+                        left: `${lensPosition.x}%`,
+                        top: `${lensPosition.y}%`,
+                        backgroundImage: `url(${sourcePreviewUrl})`,
+                        backgroundPosition: `${lensPosition.x}% ${lensPosition.y}%`,
+                        backgroundSize: `${lensPosition.bgWidth * zoomFactor}px ${lensPosition.bgHeight * zoomFactor}px`,
+                      }}
+                    />
+                  )
                 )}
               </div>
             </div>
@@ -446,16 +478,20 @@ function App() {
                 <div className="magnifier-container">
                   <img src={res.previewUrl} alt={res.modelType} id={`img-${res.modelType}`} />
                   {lensPosition && (
-                    <div
-                      className="magnifier-lens"
-                      style={{
-                        left: `${lensPosition.x}%`,
-                        top: `${lensPosition.y}%`,
-                        backgroundImage: `url(${res.previewUrl})`,
-                        backgroundPosition: `${lensPosition.x}% ${lensPosition.y}%`,
-                        backgroundSize: `${lensPosition.bgWidth * 3}px ${lensPosition.bgHeight * 3}px`,
-                      }}
-                    />
+                    fullImageZoom ? (
+                      <div className="magnifier-full-zoom" style={{transformOrigin: `${lensPosition.x}% ${lensPosition.y}%`, transform: `scale(${zoomFactor})`, backgroundImage: `url(${res.previewUrl})`}} />
+                    ) : (
+                      <div
+                        className="magnifier-lens"
+                        style={{
+                          left: `${lensPosition.x}%`,
+                          top: `${lensPosition.y}%`,
+                          backgroundImage: `url(${res.previewUrl})`,
+                          backgroundPosition: `${lensPosition.x}% ${lensPosition.y}%`,
+                          backgroundSize: `${lensPosition.bgWidth * zoomFactor}px ${lensPosition.bgHeight * zoomFactor}px`,
+                        }}
+                      />
+                    )
                   )}
                 </div>
               </div>
