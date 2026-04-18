@@ -1,0 +1,114 @@
+.home-parallax-page {
+  position: relative;
+}
+
+.home-landing {
+  position: relative;
+  min-height: 150vh;
+}
+
+.home-landing-shell {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.home-page-parallax {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: clamp(18px, 5vh, 42px);
+  transition: transform 120ms linear;
+}
+
+.home-parallax-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: transform 120ms linear;
+}
+
+.home-parallax-layer .particle-hero {
+  position: absolute;
+  inset: 0;
+}
+
+.home-parallax-fade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--scene-bg-rgb), 0) 42%,
+    rgba(var(--scene-bg-rgb), 0.65) 76%,
+    rgba(var(--scene-bg-rgb), 1) 100%
+  );
+  z-index: 2;
+  transition: opacity 120ms linear;
+}
+
+.home-feature-panel {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  min-height: 100vh;
+  margin-top: 0;
+  padding-top: clamp(10px, 2.4vh, 26px);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.home-scroll-indicator {
+  position: relative;
+  width: 30px;
+  height: 50px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--scene-ink-rgb), 0.36);
+  background: rgba(var(--scene-panel-rgb), 0.42);
+  box-shadow: 0 0 24px rgba(var(--scene-ink-rgb), 0.08);
+  z-index: 2;
+}
+
+.home-scroll-indicator::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  width: 6px;
+  height: 10px;
+  border-radius: 99px;
+  transform: translateX(-50%);
+  background: rgba(var(--scene-ink-rgb), 0.7);
+  animation: scrollDot 1.35s ease-in-out infinite;
+}
+
+@keyframes scrollDot {
+  0% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0.9;
+  }
+
+  70% {
+    transform: translateX(-50%) translateY(18px);
+    opacity: 0.3;
+  }
+
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0.9;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-landing {
+    min-height: 135vh;
+  }
+
+  .home-feature-panel {
+    padding-top: 8px;
+  }
+}
